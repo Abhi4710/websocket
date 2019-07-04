@@ -1,5 +1,6 @@
 import asyncio
 import websockets
+import os
 
 
 async def response(websocket, path):
@@ -8,6 +9,7 @@ async def response(websocket, path):
     print(f"Message: {message}")
     await websocket.send("Message receive successfully!!")  # send the message back
 print("hello")
+print(os.getenv['PORT'])
 port = int(os.getenv['PORT'])
 start_server = websockets.serve(response, 'localhost', port=port) ## (response, host, port)
 
