@@ -7,11 +7,12 @@ import time, os
 class HttpWSSProtocol(websockets.WebSocketServerProtocol):
     rwebsocket = None
     rddata = None
+
     async def handler(self):
         try:
             request_line, headers = await websockets.http.read_message(self.reader)
             method, path, version = request_line[:-2].decode().split(None, 2)
-            #websockets.accept()
+            # websockets.accept()
         except Exception as e:
             print(e.args)
             self.writer.close()
@@ -36,7 +37,6 @@ class HttpWSSProtocol(websockets.WebSocketServerProtocol):
                 self.writer.close()
                 self.ws_server.unregister(self)
 
-
     async def http_handler(self, method, path, version):
         response = ''
         try:
@@ -44,7 +44,7 @@ class HttpWSSProtocol(websockets.WebSocketServerProtocol):
             googleRequest = self.reader._buffer.decode('utf-8')
             googleRequestJson = json.loads(googleRequest)
 
-            #{"location": "living", "state": "on", "device": "lights"}
+            # {"location": "living", "state": "on", "device": "lights"}
             if 'what' in googleRequestJson['result']['resolvedQuery']:
                 ESPparameters = googleRequestJson['result']['parameters']
                 ESPparameters['query'] = '?'
@@ -52,37 +52,39 @@ class HttpWSSProtocol(websockets.WebSocketServerProtocol):
                 ESPparameters = googleRequestJson['result']['parameters']
                 ESPparameters['query'] = 'cmd'
             # send command to ESP over websocket
-            if self.rwebsocket== None:
+            if self.rwebsocket == None:
                 print("Device is not connected!")
                 return
             await self.rwebsocket.send(json.dumps(ESPparameters))
 
-            #wait for response and send it back to API.ai as is
+            # wait for response and send it back to API.ai as is
             self.rddata = await self.rwebsocket.recv()
-            #{"speech": "It is working", "displayText": "It is working"}
+            # {"speech": "It is working", "displayText": "It is working"}
             print(self.rddata)
             state = json.loads(self.rddata)['state']
-            self.rddata = '{"speech": "It is turned '+state+'", "displayText": "It is turned '+state+'"}'
+            self.rddata = '{"speech": "It is turned ' + state + '", "displayText": "It is turned ' + state + '"}'
 
             response = '\r\n'.join([
                 'HTTP/1.1 200 OK',
                 'Content-Type: text/json',
                 '',
-                ''+self.rddata+'',
+                '' + self.rddata + '',
             ])
         except Exception as e:
             print(e)
         self.writer.write(response.encode())
 
+
 def updateData(data):
     HttpWSSProtocol.rddata = data
+
 
 async def ws_handler(websocket, path):
     game_name = 'g1'
     try:
         HttpWSSProtocol.rwebsocket = websocket
         await websocket.send(json.dumps({'event': 'OK'}))
-        data ='{"empty":"empty"}'
+        data = '{"empty":"empty"}'
         while True:
             data = await websocket.recv()
             updateData(data)
@@ -90,7 +92,6 @@ async def ws_handler(websocket, path):
         print(e)
     finally:
         print("")
-
 
 
 port = int(os.getenv('PORT', 5687))
