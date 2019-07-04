@@ -8,6 +8,7 @@ async def response(websocket, path):
     await websocket.send("Message receive successfully!!")  # send the message back
 
 start_server = websockets.serve(response, '', 1234) ## (response, host, port)
+print("Open)
 
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()
