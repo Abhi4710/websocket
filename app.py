@@ -11,7 +11,7 @@ async def response(websocket, path):
 print("hello")
 print(os.environ['PORT'])
 port = int(os.environ['PORT'])
-start_server = websockets.serve(response, 'localhost', port=port) ## (response, host, port)
+start_server = websockets.serve(response, '', port=port) ## (response, host, port)
 
 asyncio.get_event_loop().run_until_complete(start_server)
 print("Bye")
