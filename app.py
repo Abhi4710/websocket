@@ -10,8 +10,10 @@ async def response(websocket, path):
     await websocket.send("Message receive successfully!!")  # send the message back
 print("hello")
 print(os.environ['PORT'])
+os.environ['PORT'] = 1234
 port = int(os.environ['PORT'])
-start_server = websockets.serve(response, '', port=port) ## (response, host, port)
+print(os.environ['PORT'])
+start_server = websockets.serve(response, 'abhi122.herokuapp.com', port=port) ## (response, host, port)
 
 asyncio.get_event_loop().run_until_complete(start_server)
 print("server open")
