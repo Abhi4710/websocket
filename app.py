@@ -14,6 +14,6 @@ port = int(os.environ['PORT'])
 start_server = websockets.serve(response, '', port=port) ## (response, host, port)
 
 asyncio.get_event_loop().run_until_complete(start_server)
-print("Bye")
+print("server open")
 asyncio.get_event_loop().run_forever()
 
