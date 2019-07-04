@@ -9,7 +9,7 @@ async def response(websocket, path):
     print(f"Message: {message}")
     await websocket.send("Message receive successfully!!")  # send the message back
 print("hello")
-print(os.getenv['PORT'])
+print(os.environ['PORT'])
 port = int(os.environ['PORT'])
 start_server = websockets.serve(response, 'localhost', port=port) ## (response, host, port)
 
