@@ -1,2 +1,2 @@
 worker: python app.py runserver 
-web: webclient.html
+web: python client.py runserver
