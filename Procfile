@@ -1,2 +1,2 @@
-worker: python app.py runserver 
-web: python client.py runserver
+worker: python pythonweb.py runserver 
+web: python manage.py runserver
