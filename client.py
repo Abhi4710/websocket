@@ -3,7 +3,8 @@ import websockets
 
 
 async def message():
-    async with websockets.connect("wss://abhi122.herokuapp.com:31793") as socket:
+    port = int(os.environ['PORT'])
+    async with websockets.connect(f"wss://abhi122.herokuapp.com:{port}") as socket:
         msg = input("what do you want to send?")
         await socket.send(msg)
         print(await socket.recv())
