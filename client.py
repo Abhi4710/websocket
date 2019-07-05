@@ -1,13 +1,15 @@
 import asyncio
 import websockets
+import os
 
 
 async def message():
     port = int(os.environ['PORT'])
     async with websockets.connect(f"wss://abhi122.herokuapp.com:{port}") as socket:
-        msg = input("what do you want to send?")
+        msg = "Hello!!"
         await socket.send(msg)
         print(await socket.recv())
+        await socket.send("Good Bye!!")
 
 asyncio.get_event_loop().run_until_complete(message())
 asyncio.get_event_loop().run_forever()
