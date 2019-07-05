@@ -9,8 +9,8 @@ async def response(websocket, path):
     print(f"Message: {message}")
     await websocket.send("Message receive successfully!!")  # send the message back
 print("hello")
-print(os.environ['PORT'])
-port = int(os.environ)
+print(os.environ)
+# port = int(os.environ)
 start_server = websockets.serve(response, '', port=65432) ## (response, host, port)
 
 asyncio.get_event_loop().run_until_complete(start_server)
