@@ -10,7 +10,9 @@ async def time(websocket, path):
         now = datetime.datetime.utcnow().isoformat() + 'Z'
         await websocket.send(now)
         await asyncio.sleep(random.random() * 3)
-        
-start_server = websockets.serve(time, '', port=int(os.environ['PORT'])))
+ 
+port = int(os.environ['PORT'])
+print(port)
+start_server = websockets.serve(time, '', port=port)
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()
