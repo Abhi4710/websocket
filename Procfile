@@ -1,1 +1,1 @@
-worker: python server.py runserver 0.0.0.0:80
+worker: python app.py runserver 0.0.0.0:80
